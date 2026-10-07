@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b45">
+  <title>MP RATHOD | Dairy Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div id="auth-view" class="auth-shell">
+    <section class="auth-card">
+      <div class="brand-mark">MR</div>
+      <p class="eyebrow">DAIRY MANAGEMENT</p>
+      <h1>MP RATHOD</h1>
+      <p class="muted">Your daily dairy operations, in one place.</p>
+      <div class="auth-tabs"><button class="active" data-auth="login">Sign in</button><button data-auth="register">Create account</button></div>
+      <form id="auth-form" class="form-stack">
+        <label>Username<input name="username" autocomplete="username" required minlength="2" placeholder="Your username"></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required minlength="4" placeholder="Your password"></label>
+        <button class="button primary full" type="submit" id="auth-submit">Sign in</button>
+        <p class="form-note" id="auth-message" role="status"></p>
+      </form>
+      <p class="auth-foot">Simple records. Better days.</p>
+    </section>
+    <div class="auth-art"><div class="sun"></div><div class="hill hill-one"></div><div class="hill hill-two"></div><div class="art-copy"><span>FRESH MILK</span><strong>Every day<br>starts here.</strong></div></div>
+  </div>
+
+  <div id="app-view" class="app-shell hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard"><span class="brand-mark small">MR</span><span><strong>MP RATHOD</strong><small>DAIRY MANAGEMENT</small></span></a>
+      <p class="nav-label">WORKSPACE</p>
+      <nav><button class="nav-item active" data-page="dashboard"><span>▦</span>Overview</button><button class="nav-item" data-page="customers"><span>♙</span>Customers</button><button class="nav-item" data-page="milk"><span>◉</span>Milk records</button></nav>
+      <div class="sidebar-bottom"><div class="profile"><div class="avatar">MR</div><div><strong id="profile-name">Manager</strong><small>Administrator</small></div><button id="logout" title="Sign out" aria-label="Sign out">↗</button></div><div class="sidebar-note">A little care in every collection.</div></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><div class="mobile-brand"><span class="brand-mark small">MR</span><strong>MP RATHOD</strong></div><div class="breadcrumb">Workspace <span>/</span> <strong id="crumb">Overview</strong></div><div class="topbar-right"><span class="today" id="today"></span><div class="top-avatar">MR</div></div></header>
+      <div class="page-wrap">
+        <section class="page active" id="page-dashboard">
+          <div class="welcome-row"><div><p class="eyebrow">DAILY OPERATIONS</p><h1>Good day, <span id="welcome-name">Manager</span></h1><p class="muted">Here’s what’s happening at your dairy today.</p></div><div class="welcome-actions"><button class="button secondary" id="milk-stats-toggle" type="button">Unlock milk totals</button><button class="button primary" data-action="add-milk">＋ Record milk</button></div></div>
+          <div class="stats-grid"><article class="stat-card"><div class="stat-top"><span class="stat-icon green">♙</span><span class="stat-caption">ALL TIME</span></div><p>Total customers</p><strong id="stat-customers">—</strong><small>Registered in your dairy</small></article><article class="stat-card"><div class="stat-top"><span class="stat-icon mint">◉</span><span class="stat-caption">TODAY</span></div><p>Milk collected</p><strong><span id="stat-litres">—</span><em> L</em></strong><small>Across all customers</small></article><article class="stat-card"><div class="stat-top"><span class="stat-icon gold">₹</span><span class="stat-caption">TODAY</span></div><p>Milk value</p><strong><em>₹</em><span id="stat-amount">—</span></strong><small>Based on recorded entries</small></article></div>
+          <div class="content-grid"><section class="panel"><div class="panel-heading"><div><h2>Recent milk records</h2><p>Latest collection entries</p></div><button class="text-button" data-page="milk">View all →</button></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Date & shift</th><th>Type</th><th>Quantity</th><th>Amount</th></tr></thead><tbody id="recent-table"></tbody></table></div></section><section class="panel quick-panel"><div class="panel-heading"><div><h2>Quick actions</h2><p>Keep your records up to date</p></div></div><button class="quick-action" data-action="add-customer"><span class="quick-icon">＋</span><span><strong>Add a customer</strong><small>Register a new milk supplier</small></span><b>→</b></button><button class="quick-action" data-action="add-milk"><span class="quick-icon">◉</span><span><strong>Record milk</strong><small>Log a morning or evening entry</small></span><b>→</b></button><button class="quick-action" data-action="customer-statement"><span class="quick-icon">⌕</span><span><strong>Customer statement</strong><small>View milk, quantity and amount by ID</small></span><b>→</b></button><div class="quote-card"><span>“</span><p>Good records make a good dairy.</p><small>MP RATHOD</small></div></section></div>
+        </section>
+        <section class="page" id="page-customers"><div class="page-title-row"><div><p class="eyebrow">YOUR PEOPLE</p><h1>Customers</h1><p class="muted">Manage the people who make your dairy possible.</p></div><div class="page-actions"><button class="button secondary" data-action="customer-statement">Customer statement</button><button class="button primary" data-action="add-customer">＋ Add customer</button></div></div><section class="panel"><div class="panel-heading"><div><h2>Customer directory</h2><p id="customer-count">Loading customers…</p></div><input class="search" id="customer-search" placeholder="Search customers…" aria-label="Search customers"></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Customer ID</th><th>Mobile</th><th>Address</th><th></th></tr></thead><tbody id="customers-table"></tbody></table></div></section></section>
+        <section class="page" id="page-milk"><div class="page-title-row"><div><p class="eyebrow">COLLECTION & PAYOUT</p><h1>Milk records</h1><p class="muted">Track every collection and its value.</p></div><div class="page-actions"><button class="button danger-outline" id="delete-all-milk">Delete all milk records</button>＋ Record milk</button></div></div><section class="panel"><div class="panel-heading"><div><h2>Collection history</h2><p id="milk-count">Loading records…</p></div><input class="search" id="milk-search" placeholder="Search by customer…" aria-label="Search milk records"></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Date & shift</th><th>Milk</th><th>Litres</th><th>Fat / SNF</th><th>Rate</th><th>Amount</th><th></th></tr></thead><tbody id="milk-table"></tbody></table></div></section></section>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog id="customer-dialog" class="modal"><form id="customer-form"><div class="modal-heading"><div><p class="eyebrow">CUSTOMER DIRECTORY</p><h2 id="customer-dialog-title">Add a customer</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><div class="form-grid"><label>Customer ID<input name="customer_id" required placeholder="e.g. CUST-001"></label><label>Full name<input name="name" required placeholder="Customer name"></label><label>Mobile number<input name="mobile" required inputmode="tel" placeholder="10 digit mobile number"></label><label class="span-two">Address<input name="address" required placeholder="Village, area or street"></label></div><div class="modal-actions"><button type="button" class="button secondary" data-close>Cancel</button><button class="button primary" id="customer-submit" type="submit">Save customer</button></div></form></dialog>
+  <dialog id="customer-statement-dialog" class="modal wide-modal"><div class="modal-heading"><div><p class="eyebrow">CUSTOMER COLLECTION HISTORY</p><h2>Customer statement</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><form id="statement-form"><label>Customer ID<input name="customer_id" list="statement-customer-suggestions" required autocomplete="off" placeholder="Enter customer ID"><datalist id="statement-customer-suggestions"></datalist></label><div class="modal-actions"><button class="button primary" type="submit">Show records</button></div></form><div id="statement-results"></div></dialog>
+  <dialog id="milk-dialog" class="modal"><form id="milk-form"><div class="modal-heading"><div><p class="eyebrow">COLLECTION ENTRY</p><h2 id="milk-dialog-title">Record milk</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div>
+    <div class="hw-bar">
+      <span>⚡ Machine Connect:</span>
+      <button type="button" class="hw-btn" id="btn-read-weight" title="Read weight from scale">⚖️ Read Weight</button>
+      <button type="button" class="hw-btn" id="btn-read-analyzer" title="Read Fat & SNF from analyzer">🧪 Read Fat/SNF</button>
+    </div>
+    <div class="form-grid"><label class="span-two">Customer ID<input name="customer_id" id="milk-customer" list="customer-id-suggestions" required autocomplete="off" placeholder="Enter customer ID, e.g. CUST-001"><datalist id="customer-id-suggestions"></datalist><small class="muted" id="milk-customer-name">Type a customer ID to see their name.</small></label><label>Date<input name="date" type="date" required></label><label>Time<input name="time" type="time" required></label><label>Shift<select name="shift"><option>Morning</option><option>Evening</option></select></label><label>Milk type<select name="milk_type"><option>Cow</option><option>Buffalo</option></select></label><label>Quantity (litres / Kg)<input name="liter" id="milk-qty-input" type="number" min="0.01" step="0.01" required placeholder="0.00"></label><label>Fat %<input name="fat" id="milk-fat-input" type="number" min="0" step="0.1" required placeholder="0.0"></label><label>SNF %<input name="snf" id="milk-snf-input" type="number" min="0" step="0.1" required placeholder="0.0"></label><label>Rate per litre (₹)<input name="rate" id="milk-rate-input" type="number" min="0" step="0.01" required placeholder="0.00"></label><label class="span-two">Total amount (₹)<input name="total_amount" id="milk-amount-input" type="number" min="0" step="0.01" required placeholder="Calculated from quantity × rate"></label></div><div class="modal-actions"><button type="button" class="button secondary" data-close>Cancel</button><button class="button primary" id="milk-submit" type="submit">Save record</button></div></form></dialog>
+  <dialog id="milk-stats-password-dialog" class="modal"><form id="milk-stats-password-form"><div class="modal-heading"><div><p class="eyebrow">PRIVATE DASHBOARD TOTALS</p><h2>Unlock milk totals</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><label>Login password<input name="password" type="password" required autocomplete="current-password" placeholder="Enter your account password"></label><p class="form-note" id="milk-stats-password-message" role="status"></p><div class="modal-actions"><button type="button" class="button secondary" data-close>Cancel</button><button class="button primary" type="submit">Unlock</button></div></form></dialog>
+
+  <!-- Thermal Print Slip Receipt Modal -->
+  <dialog id="receipt-dialog" class="modal receipt-modal">
+    <div class="receipt-wrap">
+      <div class="receipt-paper" id="receipt-paper">
+        <div class="receipt-header">
+          <h3>MP RATHOD DAIRY</h3>
+          <p>Milk Collection Receipt</p>
+          <hr class="dashed-line">
+        </div>
+        <div class="receipt-body" id="receipt-content"></div>
+        <hr class="dashed-line">
+        <div class="receipt-footer">
+          <p>Thank You! 🙏</p>
+          <small id="receipt-date-print"></small>
+        </div>
+      </div>
+      <div class="receipt-actions">
+        <button type="button" class="button primary" id="btn-print-receipt">🖨️ Print Slip</button>
+        <button type="button" class="button secondary" data-close>Close</button>
+      </div>
+    </div>
+  </dialog>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
