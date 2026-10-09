@@ -201,11 +201,46 @@ document.querySelector('#statement-form').addEventListener('submit', async event
   const records = milkRecords.filter(item => normalizeId(item.customer_id) === normalizeId(customerId)).sort((a,b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
   const litres = records.reduce((sum,item) => sum + Number(item.liter || 0),0);
   const amount = records.reduce((sum,item) => sum + Number(item.total_amount || 0),0);
+  const printBtn = document.querySelector('#btn-print-statement');
+  if (printBtn) printBtn.style.display = records.length ? 'inline-flex' : 'none';
+
   const header = customer
-    ? `<h3>${esc(customer.name)}</h3><div class="statement-profile"><div><small>Customer ID</small><strong>${esc(customer.customer_id)}</strong></div><div><small>Mobile</small><strong>${esc(customer.mobile)}</strong></div><div><small>Address</small><strong>${esc(customer.address)}</strong></div></div>`
-    : `<h3>Customer ID: ${esc(customerId)}</h3><p class="statement-missing">Customer profile was not found. Milk records are shown below; add this customer in Customers to store their name, mobile and address.</p>`;
-  const rows = records.length ? records.map(record => `<tr><td>${shortDate(record.date)}</td><td>${esc(record.time || '—')}</td><td>${esc(record.shift)}</td><td>${esc(record.milk_type)}</td><td>${Number(record.liter || 0).toFixed(2)} L</td><td>${Number(record.fat || 0).toFixed(1)} / ${Number(record.snf || 0).toFixed(1)}</td><td>₹${money(record.rate)}</td><td><strong>₹${money(record.total_amount)}</strong></td></tr>`).join('') : '<tr><td colspan="8" class="empty-cell">No milk records for this customer ID.</td></tr>';
-  results.innerHTML = `<section class="statement-summary">${header}<div class="statement-totals"><strong>${records.length} milk entries</strong><strong>${litres.toFixed(2)} litres total</strong><strong>Total amount ₹${money(amount)}</strong></div></section><div class="table-wrap statement-table"><table><thead><tr><th>Date</th><th>Time</th><th>Shift</th><th>Milk</th><th>Quantity</th><th>Fat / SNF</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    ? `<div class="statement-print-head"><h2>MP RATHOD DAIRY</h2><p>Customer Statement & Payout Report</p></div>
+       <h3>${esc(customer.name)}</h3>
+       <div class="statement-profile">
+         <div><small>Customer ID</small><strong>${esc(customer.customer_id)}</strong></div>
+         <div><small>Mobile</small><strong>${esc(customer.mobile)}</strong></div>
+         <div><small>Address</small><strong>${esc(customer.address)}</strong></div>
+       </div>`
+    : `<div class="statement-print-head"><h2>MP RATHOD DAIRY</h2><p>Customer Statement & Payout Report</p></div>
+       <h3>Customer ID: ${esc(customerId)}</h3>
+       <p class="statement-missing">Customer profile was not found in directory. Milk records are shown below.</p>`;
+  
+  const rows = records.length 
+    ? records.map(record => `<tr><td>${shortDate(record.date)}</td><td>${esc(record.time || '—')}</td><td>${esc(record.shift)}</td><td>${esc(record.milk_type)}</td><td>${Number(record.liter || 0).toFixed(2)} L</td><td>${Number(record.fat || 0).toFixed(1)} / ${Number(record.snf || 0).toFixed(1)}</td><td>₹${money(record.rate)}</td><td><strong>₹${money(record.total_amount)}</strong></td></tr>`).join('') 
+    : '<tr><td colspan="8" class="empty-cell">No milk records for this customer ID.</td></tr>';
+  
+  results.innerHTML = `
+    <div id="statement-print-area">
+      <section class="statement-summary">
+        ${header}
+        <div class="statement-totals">
+          <strong>Total Entries: ${records.length}</strong>
+          <strong>Total Quantity: ${litres.toFixed(2)} L</strong>
+          <strong>Total Payable: ₹${money(amount)}</strong>
+        </div>
+      </section>
+      <div class="table-wrap statement-table">
+        <table>
+          <thead><tr><th>Date</th><th>Time</th><th>Shift</th><th>Milk</th><th>Quantity</th><th>Fat / SNF</th><th>Rate</th><th>Amount</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+});
+
+document.querySelector('#btn-print-statement')?.addEventListener('click', () => {
+  window.print();
 });
 const milkForm = document.querySelector('#milk-form');
 function updateTotal() {

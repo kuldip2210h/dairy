@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/styles.css?v=2.1">
 </head>
 <body>
   <div id="auth-view" class="auth-shell">
@@ -51,7 +51,7 @@
   </div>
   <div class="toast" id="toast" role="status"></div>
   <dialog id="customer-dialog" class="modal"><form id="customer-form"><div class="modal-heading"><div><p class="eyebrow">CUSTOMER DIRECTORY</p><h2 id="customer-dialog-title">Add a customer</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><div class="form-grid"><label>Customer ID<input name="customer_id" required placeholder="e.g. CUST-001"></label><label>Full name<input name="name" required placeholder="Customer name"></label><label>Mobile number<input name="mobile" required inputmode="tel" placeholder="10 digit mobile number"></label><label class="span-two">Address<input name="address" required placeholder="Village, area or street"></label></div><div class="modal-actions"><button type="button" class="button secondary" data-close>Cancel</button><button class="button primary" id="customer-submit" type="submit">Save customer</button></div></form></dialog>
-  <dialog id="customer-statement-dialog" class="modal wide-modal"><div class="modal-heading"><div><p class="eyebrow">CUSTOMER COLLECTION HISTORY</p><h2>Customer statement</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><form id="statement-form"><label>Customer ID<input name="customer_id" list="statement-customer-suggestions" required autocomplete="off" placeholder="Enter customer ID"><datalist id="statement-customer-suggestions"></datalist></label><div class="modal-actions"><button class="button primary" type="submit">Show records</button></div></form><div id="statement-results"></div></dialog>
+  <dialog id="customer-statement-dialog" class="modal wide-modal"><div class="modal-heading"><div><p class="eyebrow">CUSTOMER COLLECTION HISTORY</p><h2>Customer statement</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><form id="statement-form"><label>Customer ID<input name="customer_id" list="statement-customer-suggestions" required autocomplete="off" placeholder="Enter customer ID"><datalist id="statement-customer-suggestions"></datalist></label><div class="modal-actions"><button class="button secondary" type="button" id="btn-print-statement" style="display:none;">🖨️ Print Statement</button><button class="button primary" type="submit">Show records</button></div></form><div id="statement-results"></div></dialog>
   <dialog id="milk-dialog" class="modal"><form id="milk-form"><div class="modal-heading"><div><p class="eyebrow">COLLECTION ENTRY</p><h2 id="milk-dialog-title">Record milk</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div>
     <div class="hw-bar">
       <span>⚡ Machine Connect:</span>
@@ -83,6 +83,6 @@
       </div>
     </div>
   </dialog>
-  <script src="/static/app.js" defer></script>
+  <script src="/static/app.js?v=2.1" defer></script>
 </body>
 </html>

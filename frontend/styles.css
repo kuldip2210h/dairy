@@ -1406,15 +1406,17 @@ tbody tr:last-child td {
   flex: 1;
 }
 
-/* Thermal Print Media Styling (Optimized for 58mm & 80mm POS Printers) */
+/* Print Media Styling for Statement Report & Thermal Receipt */
 @media print {
   body * {
     visibility: hidden;
   }
-  #receipt-dialog, #receipt-dialog * {
+
+  /* 1. Thermal Receipt Print */
+  #receipt-dialog[open], #receipt-dialog[open] * {
     visibility: visible;
   }
-  #receipt-dialog {
+  #receipt-dialog[open] {
     position: absolute;
     left: 0;
     top: 0;
@@ -1424,6 +1426,59 @@ tbody tr:last-child td {
     box-shadow: none !important;
     border: none !important;
   }
+
+  /* 2. Customer Statement Full Report Print */
+  #customer-statement-dialog[open], 
+  #customer-statement-dialog[open] #statement-print-area, 
+  #customer-statement-dialog[open] #statement-print-area * {
+    visibility: visible;
+  }
+  #customer-statement-dialog[open] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  #customer-statement-dialog[open] .modal-heading,
+  #customer-statement-dialog[open] #statement-form,
+  #customer-statement-dialog[open] .close-button {
+    display: none !important;
+  }
+
+  .statement-print-head {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .statement-print-head h2 {
+    font-size: 22px;
+    margin: 0;
+    color: #000;
+  }
+  .statement-print-head p {
+    margin: 4px 0 0;
+    color: #555;
+    font-size: 13px;
+  }
+  .statement-table {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  table {
+    border: 1px solid #ccc;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    color: #000 !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+
   .receipt-paper {
     border: none !important;
     padding: 0 !important;
