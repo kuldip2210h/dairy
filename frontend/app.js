@@ -208,15 +208,55 @@ document.querySelector('#statement-form').addEventListener('submit', async event
   results.innerHTML = `<section class="statement-summary">${header}<div class="statement-totals"><strong>${records.length} milk entries</strong><strong>${litres.toFixed(2)} litres total</strong><strong>Total amount ₹${money(amount)}</strong></div></section><div class="table-wrap statement-table"><table><thead><tr><th>Date</th><th>Time</th><th>Shift</th><th>Milk</th><th>Quantity</th><th>Fat / SNF</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 });
 const milkForm = document.querySelector('#milk-form');
-function updateTotal() { const qty = Number(milkForm.elements.liter.value), rate = Number(milkForm.elements.rate.value); milkForm.elements.total_amount.value = qty && rate ? (qty * rate).toFixed(2) : ''; }
+function updateTotal() {
+  const qty = Number(milkForm.elements.liter.value) || 0;
+  let rate = Number(milkForm.elements.rate.value) || 0;
+  
+  // Auto rate calculation suggestion if rate is empty but fat is provided
+  // Example standard: Cow base rate or Fat-based calculation (Fat * 7.5 or rate)
+  if (!rate && milkForm.elements.fat.value) {
+    const fatVal = Number(milkForm.elements.fat.value) || 0;
+    const milkType = milkForm.elements.milk_type.value;
+    if (fatVal > 0) {
+      // Standard dairy formula: Fat * rate_factor or standard default rate
+      const factor = milkType === 'Cow' ? 7.2 : 8.0;
+      rate = Math.round(fatVal * factor * 10) / 10;
+      milkForm.elements.rate.value = rate.toFixed(2);
+    }
+  }
+
+  if (qty > 0 && rate > 0) {
+    milkForm.elements.total_amount.value = (qty * rate).toFixed(2);
+  } else if (!qty || !rate) {
+    if (!qty) milkForm.elements.total_amount.value = '';
+  }
+}
 milkForm.elements.customer_id.addEventListener('input', updateMilkCustomerName);
-milkForm.elements.liter.addEventListener('input', updateTotal); milkForm.elements.rate.addEventListener('input', updateTotal);
+milkForm.elements.liter.addEventListener('input', updateTotal);
+milkForm.elements.rate.addEventListener('input', updateTotal);
+milkForm.elements.fat.addEventListener('input', updateTotal);
+milkForm.elements.milk_type.addEventListener('change', updateTotal);
 milkForm.addEventListener('submit', async event => {
-  event.preventDefault(); const form = Object.fromEntries(new FormData(event.currentTarget));
+  event.preventDefault();
+  const form = Object.fromEntries(new FormData(event.currentTarget));
   if (milkForm.dataset.saving === 'true') return;
+  
+  // Validation check
+  if (!form.customer_id || !form.customer_id.trim()) {
+    toast('Please enter customer ID', true);
+    return;
+  }
+  if (!Number(form.liter) || Number(form.liter) <= 0) {
+    toast('Please enter valid quantity (litres)', true);
+    return;
+  }
+  if (!Number(form.total_amount) && Number(form.liter) && Number(form.rate)) {
+    form.total_amount = (Number(form.liter) * Number(form.rate)).toFixed(2);
+  }
+
   milkForm.dataset.saving = 'true';
   form.customer_id = form.customer_id.trim();
-  for (const key of ['liter','fat','snf','rate','total_amount']) form[key] = Number(form[key]);
+  for (const key of ['liter','fat','snf','rate','total_amount']) form[key] = Number(form[key] || 0);
   const submit = milkForm.querySelector('button[type="submit"]');
   submit.disabled = true; submit.textContent = 'Saving…';
   try {
