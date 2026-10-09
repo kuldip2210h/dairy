@@ -272,14 +272,11 @@ milkForm.addEventListener('submit', async event => {
       await refreshData(); goPage('milk');
     } else {
       const savedData = {...form};
-      const nextShift = form.shift;
+      document.querySelector('#milk-dialog').close();
       milkForm.reset();
-      milkForm.elements.date.value = new Date().toISOString().slice(0,10);
-      milkForm.elements.time.value = new Date().toTimeString().slice(0,5);
-      milkForm.elements.shift.value = nextShift;
       updateMilkCustomerName();
       await refreshData();
-      toast('Milk record saved.');
+      toast('Milk record saved successfully!');
       // Show Slip Print Receipt for the saved record
       showReceipt(savedData);
     }

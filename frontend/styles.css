@@ -1043,12 +1043,14 @@ tbody tr:last-child td {
 ============================================================ */
 .modal {
   width: min(600px, calc(100% - 32px));
+  max-height: 90vh;
   padding: 0;
   border: 0;
   border-radius: var(--radius-lg);
   box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
   background: #ffffff;
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal[open] {
@@ -1499,16 +1501,33 @@ tbody tr:last-child td {
     min-width: 600px;
   }
 
-  /* Modals full width on mobile screens */
+  /* Modals full width on mobile screens with smooth scrolling */
   .modal {
     width: calc(100vw - 20px) !important;
-    max-height: 90vh !important;
-    overflow-y: auto !important;
-    margin: auto !important;
+    max-height: 85vh !important;
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin: 20px auto !important;
+    border-radius: 16px !important;
   }
 
   .modal form {
-    padding: 18px 16px !important;
+    padding: 20px 16px 30px !important;
+  }
+
+  .modal-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    margin-top: 20px !important;
+  }
+
+  .modal-actions .button {
+    flex: 1 !important;
+    height: 44px !important;
+    padding: 0 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
   }
 
   .form-grid {
