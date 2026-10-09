@@ -220,12 +220,14 @@ document.querySelector('#statement-form').addEventListener('submit', async event
     ? records.map(record => `<tr><td>${shortDate(record.date)}</td><td>${esc(record.time || '—')}</td><td>${esc(record.shift)}</td><td>${esc(record.milk_type)}</td><td>${Number(record.liter || 0).toFixed(2)} L</td><td>${Number(record.fat || 0).toFixed(1)} / ${Number(record.snf || 0).toFixed(1)}</td><td>₹${money(record.rate)}</td><td><strong>₹${money(record.total_amount)}</strong></td></tr>`).join('') 
     : '<tr><td colspan="8" class="empty-cell">No milk records for this customer ID.</td></tr>';
   
+  const uniqueDays = new Set(records.map(r => r.date).filter(Boolean)).size;
+
   results.innerHTML = `
     <div id="statement-print-area">
       <section class="statement-summary">
         ${header}
         <div class="statement-totals">
-          <strong>Total Entries: ${records.length}</strong>
+          <strong>Total Days: ${uniqueDays}</strong>
           <strong>Total Quantity: ${litres.toFixed(2)} L</strong>
           <strong>Total Payable: ₹${money(amount)}</strong>
         </div>
